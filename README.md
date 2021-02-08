@@ -4,7 +4,7 @@ Realization of an application from scratch by following the videos of w3cj on it
 Add JWT-based authentification to a Node/Express/Mongo app.
 
 ## Authentification
-* [ ] Create server
+* [X] Create server
 * [ ] Add auth router
 * [ ] Create user with POST /auth/signup
     * [ ] validate required fields
