@@ -3,13 +3,17 @@ const volleyball = require('volleyball'); // Volleyball is a tiny HTTP logger fo
 
 const app = express();
 
-app.use(volleyball); 
+const auth = require('./auth/index');
+
+app.use(volleyball);
 
 app.get('/', (req, res) => {
   res.json({
     message: '🦄🌈✨Hello World! 🌈✨🦄'
   });
 });
+
+app.use('/auth', auth);
 
 function notFound(req, res, next) {
   res.status(404);
