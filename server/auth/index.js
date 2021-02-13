@@ -13,8 +13,8 @@ users.createIndex('username', { unique: true });
 
 // Create validate schema
 const schema = Joi.object({
-    username: Joi.string().alphanum().min(3).max(30).required(),
-    password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{6,30}$')).required()
+    username: Joi.string().pattern(new RegExp('^[a-zA-Z0-9_]{6,30}$')).required(),
+    password: Joi.string().trim().min(6).required()
 });
 
 
@@ -46,6 +46,7 @@ router.post('/signup', (req, res, next) => {
                         password: hash
                     }
                     users.insert(newUser).then(insertedUser => {
+                        delete insertedUser.password; // Good practice to don't show hashed password
                         res.json(insertedUser);
                     });
                 });
