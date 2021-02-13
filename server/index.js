@@ -4,7 +4,7 @@ const volleyball = require('volleyball'); // Volleyball is a tiny HTTP logger fo
 
 const app = express();
 
-const auth = require('./auth/index');
+const auth = require('./auth'); // Don't specify /index because node grab this automaticaly
 
 app.use(volleyball);
 app.use(express.json()); // Replace bodyParser.json()
