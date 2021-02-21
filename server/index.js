@@ -1,5 +1,6 @@
 require('dotenv').config()
 const express = require('express');
+const cors = require('cors');
 const volleyball = require('volleyball'); // Volleyball is a tiny HTTP logger for debugging
 
 const app = express();
@@ -7,6 +8,9 @@ const app = express();
 const auth = require('./auth'); // Don't specify /index because node grab this automaticaly
 
 app.use(volleyball);
+app.use(cors({
+    origin: 'http://localhost:8080'
+}));
 app.use(express.json()); // Replace bodyParser.json()
 
 app.set('port', process.env.PORT || 5000);

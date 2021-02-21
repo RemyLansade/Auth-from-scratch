@@ -13,17 +13,17 @@ Add JWT-based authentification to a Node/Express/Mongo app.
     * [X] insert into db
 * [X] Create landing page
     * [X] link to sign up page
-* [ ] Create sign up page
-    * [ ] form with username & password
+* [X] Create sign up page
+    * [X] form with username & password
     * [ ] when form is submitted
-        * [ ] validate username
-            * [ ] display errors
-        * [ ] validate password
-            * [ ] display errors
-        * [ ] POST request to the server
-            * [ ] display errors
-            * [ ] if successful sign up
-                * [ ] redirect to login page
+        * [X] validate username
+            * [X] display errors
+        * [X] validate password
+            * [X] display errors
+        * [X] POST request to the server
+            * [X] display errors
+            * [X] if successful sign up
+                * [X] redirect to login page
 * [ ] Login user with POST /auth/login
     * [ ] check if email in db
         * [ ] compare password with hashed password in db
