@@ -2,6 +2,7 @@ require('dotenv').config()
 const express = require('express');
 const cors = require('cors');
 const volleyball = require('volleyball'); // Volleyball is a tiny HTTP logger for debugging
+const { handleError } = require('./helpers/error');
 
 const app = express();
 
@@ -23,22 +24,9 @@ app.get('/', (req, res) => {
 
 app.use('/auth', auth);
 
-function notFound(req, res, next) {
-    res.status(404);
-    const error = new Error('Not Found - ' + req.originalUrl);
-    next(error);
-}
-
-function errorHandler(err, req, res, next) {
-    res.status(res.statusCode || 500);
-    res.json({
-        message: err.message,
-        stack: err.stack
-    });
-}
-
-app.use(notFound);
-app.use(errorHandler);
+app.use((err, req, res, next) => {
+    handleError(err, res);
+  });
 
 app.listen(app.get('port'), () => {
     console.log('Listening on port: ' + app.get('port'));

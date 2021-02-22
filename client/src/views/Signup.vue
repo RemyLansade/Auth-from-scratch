@@ -69,7 +69,6 @@ export default {
   },
   methods: {
     signup() {
-      this.errorMessage = '';
       if (this.validUser()) {
         const body = {
           username: this.user.username,
