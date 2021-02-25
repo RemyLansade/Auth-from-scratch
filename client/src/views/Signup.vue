@@ -92,12 +92,12 @@ export default {
           setTimeout(() => {
             this.signingUp = false;
             this.$router.push('/login');
-          }, 1000);
+          }, 500);
         }).catch((error) => {
           setTimeout(() => {
             this.signingUp = false;
             this.errorMessage = error.message;
-          }, 1000);
+          }, 500);
         });
       }
     },

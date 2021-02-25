@@ -26,23 +26,25 @@ router.get('/', (req, res) => {
 
 
 router.post('/signup', (req, res, next) => {
+    const {username, password} = req.body;
     const result = schema.validate(req.body);
     if(!result.error) {
         users.findOne({
-            username: req.body.username
+            username: username
         }).then((user) => {
             // If user is undefined, username isn't in the db, otherwise, duplicate user detected.
             if(user) {
                 // There is already a user in the db whit this username.
                 // Respond with an error!
                 const error = new Error('That username already exist. Please choose another one.');
+                res.status(409);
                 next(error);
             } else {
                 // Hash the password
                 // Insert the user with hashed password
-                bcrypt.hash(req.body.password, 8).then(hash => {
+                bcrypt.hash(password, 8).then(hash => {
                     const newUser = {
-                        username: req.body.username,
+                        username: username,
                         password: hash
                     }
                     users.insert(newUser).then(insertedUser => {
@@ -53,7 +55,21 @@ router.post('/signup', (req, res, next) => {
             }
         });
     } else {
+        res.status(422);
         next(result.error);
+    }
+});
+
+router.post('/login', (req, res, next) => {
+    const result = schema.validate(req.body);
+    if (!result.error){
+        res.json({
+            message: '🔓'
+        });
+    } else {
+        const error = new Error('Unable to login.');
+        res.status(422);
+        next(error);
     }
 });
 
