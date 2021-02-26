@@ -1,12 +1,15 @@
+require('dotenv').config();
 const express = require('express');
-const Joi = require('joi'); // Validate the data coming from /signup form fields.
-const bcrypt = require('bcryptjs');
+const Joi     = require('joi'); // Validate the data coming from /signup form fields.
+const bcrypt  = require('bcryptjs');
+const jwt     = require('jsonwebtoken');
+
+const { respondError422 } = require('../helpers/error');
 
 const router = express.Router();
 
 const db = require('../db/connection');
 const users = db.get('users');
-
 
 // Create users schema into db
 users.createIndex('username', { unique: true });
@@ -61,15 +64,40 @@ router.post('/signup', (req, res, next) => {
 });
 
 router.post('/login', (req, res, next) => {
+    const {username, password} = req.body;
     const result = schema.validate(req.body);
     if (!result.error){
-        res.json({
-            message: '🔓'
+        users.findOne({
+            username: username
+        }).then((findUser) => {
+            if(findUser) {
+                bcrypt.compare(password, findUser.password).then((result) => {
+                    if(result) {
+                        const payload = {
+                            _id: findUser._id,
+                            username: findUser.username
+                        }
+                        jwt.sign(payload, process.env.TOKEN_SECRET, {
+                            expiresIn: '1d'
+                        }, (err, token) => {
+                            if(!err){
+                                res.json({
+                                    token
+                                });
+                            } else {
+                                respondError422(res, next);
+                            }
+                        });
+                    } else {
+                        respondError422(res, next);
+                    }
+                });
+            } else {
+                respondError422(res, next);
+            }
         });
     } else {
-        const error = new Error('Unable to login.');
-        res.status(422);
-        next(error);
+        respondError422(res, next);
     }
 });
 

@@ -6,16 +6,24 @@ class ErrorHandler extends Error {
     }
 }
 
+const respondError422 = (res, next) => {
+  const error = new Error('Unable to login.');
+  res.status(422);
+  next(error);
+}
+
 const handleError = (err, res) => {
-    const { statusCode, message } = err;
-    res.json({
-      status: "error",
-      statusCode,
-      message
-    });
+  const { statusCode, message } = err;
+  res.json({
+    status: "error",
+    statusCode,
+    message
+  });
 };
+
 
 module.exports = {
     ErrorHandler,
-    handleError
+    handleError,
+    respondError422
 }
