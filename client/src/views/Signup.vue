@@ -19,14 +19,14 @@
       <div class="form-row">
         <div class="form-group col-md-6">
           <label for="password">Password</label>
-          <input v-model="user.password" type="password" class="form-control" id="password" aria-describedby="passwordHelp" placeholder="Password" required>
+          <input v-model="user.password" type="password" class="form-control" id="password" aria-describedby="passwordHelp" placeholder="Password" autocomplete="off" required>
           <p id="passwordHelp" class="form-text text-muted">
             Password must be longer that 10 or more characters long.
           </p>
         </div>
         <div class="form-group col-md-6">
           <label for="confirmPassword">Confirm password</label>
-          <input v-model="user.confirmPassword" type="password" class="form-control" id="confirmPassword" aria-describedby="confirmPasswordHelp" placeholder="Confirm password" required>
+          <input v-model="user.confirmPassword" type="password" class="form-control" id="confirmPassword" aria-describedby="confirmPasswordHelp" autocomplete="off" placeholder="Confirm password" required>
           <p id="confirmPasswordHelp" class="form-text text-muted">
             Please confirm your password.
           </p>
