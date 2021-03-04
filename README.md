@@ -41,8 +41,8 @@ Add JWT-based authentification to a Node/Express/Mongo app.
             * [X] if successful login
                 * [X] Store the token in localstorage
                 * [X] Redirect to the "Dashboard".
-* [ ] If a logged in user visits the sign-up or login page, redirect them to the dashboard                
-* [ ] After signup, immediately login
+* [X] If a logged in user visits the sign-up or login page, redirect them to the dashboard                
+* [X] After signup, immediately login
 
 ## Authorization
 * [ ] Visitors can only see the homepage
