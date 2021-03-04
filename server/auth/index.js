@@ -20,6 +20,24 @@ const schema = Joi.object({
     password: Joi.string().trim().min(6).required()
 });
 
+function createTokenSendResponse(user, res, next) {
+    const payload = {
+        _id: user._id,
+        username: user.username
+    }
+
+    jwt.sign(payload, process.env.TOKEN_SECRET, {
+        expiresIn: '1d'
+    }, (err, token) => {
+        if(!err){
+            res.json({
+                token
+            });
+        } else {
+            respondError422(res, next);
+        }
+    });
+}
 
 router.get('/', (req, res) => {
     res.json({
@@ -51,8 +69,7 @@ router.post('/signup', (req, res, next) => {
                         password: hash
                     }
                     users.insert(newUser).then(insertedUser => {
-                        delete insertedUser.password; // Good practice to don't show hashed password
-                        res.json(insertedUser);
+                        createTokenSendResponse(insertedUser, res, next);
                     });
                 });
             }
@@ -73,21 +90,7 @@ router.post('/login', (req, res, next) => {
             if(findUser) {
                 bcrypt.compare(password, findUser.password).then((result) => {
                     if(result) {
-                        const payload = {
-                            _id: findUser._id,
-                            username: findUser.username
-                        }
-                        jwt.sign(payload, process.env.TOKEN_SECRET, {
-                            expiresIn: '1d'
-                        }, (err, token) => {
-                            if(!err){
-                                res.json({
-                                    token
-                                });
-                            } else {
-                                respondError422(res, next);
-                            }
-                        });
+                        createTokenSendResponse(findUser, res, next);
                     } else {
                         respondError422(res, next);
                     }
