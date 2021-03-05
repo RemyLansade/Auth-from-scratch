@@ -20,7 +20,8 @@ app.set('port', process.env.PORT || 5000);
 
 app.get('/', (req, res) => {
     res.json({
-        message: '🦄🌈✨Hello World! 🌈✨🦄'
+        message: '🦄🌈✨Hello World! 🌈✨🦄',
+        user: req.user,
     });
 });
 
