@@ -4,15 +4,11 @@ const Joi     = require('joi'); // Validate the data coming from /signup form fi
 const bcrypt  = require('bcryptjs');
 const jwt     = require('jsonwebtoken');
 
+const User = require('../db/schema/user');
+
 const { respondError422 } = require('../helpers/error');
 
 const router = express.Router();
-
-const db = require('../db/connection');
-const users = db.get('users');
-
-// Create users schema into db
-users.createIndex('username', { unique: true });
 
 // Create validate schema
 const schema = Joi.object({
@@ -50,7 +46,7 @@ router.post('/signup', (req, res, next) => {
     const {username, password} = req.body;
     const result = schema.validate(req.body);
     if(!result.error) {
-        users.findOne({
+        User.findOne({
             username: username
         }).then((user) => {
             // If user is undefined, username isn't in the db, otherwise, duplicate user detected.
@@ -64,11 +60,12 @@ router.post('/signup', (req, res, next) => {
                 // Hash the password
                 // Insert the user with hashed password
                 bcrypt.hash(password, 8).then(hash => {
-                    const newUser = {
+                    const newUser = new User({
                         username: username,
                         password: hash
-                    }
-                    users.insert(newUser).then(insertedUser => {
+                    });
+
+                    newUser.save().then(insertedUser => {
                         createTokenSendResponse(insertedUser, res, next);
                     });
                 });
@@ -84,7 +81,7 @@ router.post('/login', (req, res, next) => {
     const {username, password} = req.body;
     const result = schema.validate(req.body);
     if (!result.error){
-        users.findOne({
+        User.findOne({
             username: username
         }).then((findUser) => {
             if(findUser) {

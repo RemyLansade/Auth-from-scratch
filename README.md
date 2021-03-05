@@ -46,10 +46,15 @@ Add JWT-based authentification to a Node/Express/Mongo app.
 
 ## Authorization
 * [ ] Visitors can only see the homepage
+    * [ ] checkTokenSetUser middleware
+        * [ ] get token from Authorization header
+            * [ ] if defined ---
+                * [ ] verify the token with the token secret
+                * [ ] set req.user to be the decoded verified payload
+        * [ ] else - move along
     * [ ] isLoggedIn middleware
-        * [ ] validate JWT in header
-            * [ ] set req.user to be JWT payload
-        * [ ] send an unauthorized error message
+        * [ ] if req.user is set - move along
+        * [ ] else - send an unathorized error message
     * [ ] redirect to login form
 * [ ] Logged in users can only see their page
     * [ ] allowAccess middleware

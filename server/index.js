@@ -6,6 +6,7 @@ const { handleError } = require('./helpers/error');
 
 const app = express();
 
+const middlewares = require('./auth/middleware');
 const auth = require('./auth'); // Don't specify /index because node grab this automaticaly
 
 app.use(volleyball);
@@ -13,6 +14,7 @@ app.use(cors({
     origin: 'http://localhost:8080'
 }));
 app.use(express.json()); // Replace bodyParser.json()
+app.use(middlewares.checkTokenSetUser);
 
 app.set('port', process.env.PORT || 5000);
 
