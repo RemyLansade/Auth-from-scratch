@@ -45,25 +45,34 @@ Add JWT-based authentification to a Node/Express/Mongo app.
 * [X] After signup, immediately login
 
 ## Authorization
-* [ ] Visitors can only see the homepage
-    * [ ] checkTokenSetUser middleware
-        * [ ] get token from Authorization header
-            * [ ] if defined ---
-                * [ ] verify the token with the token secret
-                * [ ] set req.user to be the decoded verified payload
-        * [ ] else - move along
+* [X] Visitors can only see the homepage
+    * [X] checkTokenSetUser middleware
+        * [X] get token from Authorization header
+            * [X] if defined ---
+                * [X] verify the token with the token secret
+                * [X] set req.user to be the decoded verified payload
+        * [X] else - move along
     * [ ] isLoggedIn middleware
         * [ ] if req.user is set - move along
         * [ ] else - send an unathorized error message
     * [ ] redirect to login form
-* [ ] Logged in users can only see their page
-    * [ ] allowAccess middleware
-        * [ ] id in url must match id in req.user
-        * [ ] send an unauthorized error message
-    * [ ] redirect to user page if they visit the homepage
-        * [ ] set user_id in localStorage after login/signup
-* [ ] Add GET /auth/logout to clear user_id cookie
-    * [ ] redirect to login page
+* [X] Logged in users can only see their page
+* [ ] POST /api/v1/notes
+    * [ ] must be logged in
+    * [ ] logged in users can create notes
+        * [ ] Title
+        * [ ] Description -- markdown
+        * [ ] set user_id on server with logged in users id
+* [ ] Create notes form on client
+    * [ ] Title
+    * [ ] Description
+* [ ] GET /api/v1/notes
+    * [ ] must be logged in
+        * [ ] logged in users can request all their notes
+            * [ ] get all notes in DB with logged in users user_id
+* [ ] List all notes on client
+    * [ ] render description with markdown
+
 
 ## Administration page
 * [ ] Admin page that list all users
