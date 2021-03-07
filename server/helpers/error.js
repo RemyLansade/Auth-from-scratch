@@ -1,29 +1,18 @@
-class ErrorHandler extends Error {
-    constructor(statusCode, message) {
-      super();
-      this.statusCode = statusCode;
-      this.message = message;
-    }
+function notFound(req, res, next) {
+    res.status(404);
+    const error = new Error('Not Found - ' + req.originalUrl);
+    next(error);
 }
-
-const respondError422 = (res, next) => {
-  const error = new Error('Unable to login.');
-  res.status(422);
-  next(error);
+  
+function errorHandler(err, req, res, next) {
+    res.status(res.statusCode || 500);
+    res.json({
+        message: err.message,
+        stack: err.stack
+    });
 }
-
-const handleError = (err, res) => {
-  const { statusCode, message } = err;
-  res.json({
-    status: "error",
-    statusCode,
-    message
-  });
-};
-
 
 module.exports = {
-    ErrorHandler,
-    handleError,
-    respondError422
+    notFound,
+    errorHandler,
 }

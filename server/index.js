@@ -2,12 +2,13 @@ require('dotenv').config()
 const express = require('express');
 const cors = require('cors');
 const volleyball = require('volleyball'); // Volleyball is a tiny HTTP logger for debugging
-const { handleError } = require('./helpers/error');
 
 const app = express();
 
 const middlewares = require('./auth/middleware');
-const auth = require('./auth'); // Don't specify /index because node grab this automaticaly
+const { notFound, errorHandler } = require('./helpers/error');
+const auth = require('./auth');
+const notes = require('./api/notes');
 
 app.use(volleyball);
 app.use(cors({
@@ -26,10 +27,10 @@ app.get('/', (req, res) => {
 });
 
 app.use('/auth', auth);
-
-app.use((err, req, res, next) => {
-    handleError(err, res);
-  });
+app.use('/api/v1/notes', middlewares.isLoggedIn, notes);
+  
+app.use(notFound);  
+app.use(errorHandler);
 
 app.listen(app.get('port'), () => {
     console.log('Listening on port: ' + app.get('port'));

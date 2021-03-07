@@ -6,8 +6,6 @@ const jwt     = require('jsonwebtoken');
 
 const User = require('../db/schema/user');
 
-const { respondError422 } = require('../helpers/error');
-
 const router = express.Router();
 
 // Create validate schema
@@ -33,6 +31,12 @@ function createTokenSendResponse(user, res, next) {
             respondError422(res, next);
         }
     });
+}
+
+function respondError422(res, next) {
+    res.status(422);
+    const error = new Error('Unable to login.');
+    next(error);
 }
 
 router.get('/', (req, res) => {

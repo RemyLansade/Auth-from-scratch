@@ -52,20 +52,20 @@ Add JWT-based authentification to a Node/Express/Mongo app.
                 * [X] verify the token with the token secret
                 * [X] set req.user to be the decoded verified payload
         * [X] else - move along
-    * [ ] isLoggedIn middleware
-        * [ ] if req.user is set - move along
-        * [ ] else - send an unathorized error message
-    * [ ] redirect to login form
+    * [X] isLoggedIn middleware
+        * [X] if req.user is set - move along
+        * [X] else - send an unathorized error message
+    * [X] redirect to login form
 * [X] Logged in users can only see their page
+* [X] Create notes form on client
+    * [X] Title
+    * [X] Description
 * [ ] POST /api/v1/notes
     * [ ] must be logged in
     * [ ] logged in users can create notes
         * [ ] Title
         * [ ] Description -- markdown
         * [ ] set user_id on server with logged in users id
-* [ ] Create notes form on client
-    * [ ] Title
-    * [ ] Description
 * [ ] GET /api/v1/notes
     * [ ] must be logged in
         * [ ] logged in users can request all their notes
