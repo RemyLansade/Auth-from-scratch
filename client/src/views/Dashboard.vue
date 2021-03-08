@@ -43,6 +43,7 @@ export default {
       title: '',
       note: '',
     },
+    notes: [],
   }),
   mounted() {
     fetch(API_URL, {
@@ -69,7 +70,12 @@ export default {
         },
       }).then((res) => res.json())
         .then((note) => {
-          console.log(note);
+          this.notes.push(note);
+          this.newNote = {
+            title: '',
+            note: '',
+          };
+          this.showForm = false;
         });
     },
     logout() {

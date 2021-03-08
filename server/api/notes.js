@@ -11,7 +11,10 @@ const schema = Joi.object().keys({
 });
 
 router.get('/', (req, res) => {
-    res.json([]);
+    Note.find({user_id: req.user._id})
+        .then(notes => {
+            res.json(notes);
+        })
 });
 
 router.post('/', (req, res, next) => {
